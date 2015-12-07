@@ -7,15 +7,8 @@
 
 int main()
 {
-	FileStructure f;
-    Key* head = new Key();
-    Value* newCurrVal;
-    
-    f.loadFile("data/gibberish.bin", (*head));
-    // head.print();
-    
-    /*
-	// Eigen lijst
+	/*
+	// Own list
 	Key* head = new Key();
 	head->setText("aa");
 	head->addValue("aaa");
@@ -39,8 +32,11 @@ int main()
 	c0->setNext(NULL);
 	*/
 	
-	
-	
+	FileStructure f;
+    Key* head = new Key();
+    Value* newCurrVal;
+    
+    f.loadFile("data/gibberish.bin", (*head));
     
 	/*
 	 *  Bubble sort
@@ -77,8 +73,6 @@ int main()
 	head = MergeSort(head);
 	
 	Key* curr = head;
-	//Value* currVal = new Value();
-	//Value* newCurrVal = new Value();
 	while ( curr != NULL) {
 		newCurrVal = MergeSort(curr->getValuePtr());
 		curr->setValuePtr(newCurrVal);
@@ -89,16 +83,14 @@ int main()
 	double duration = double(end - begin) / CLOCKS_PER_SEC;
 	std::cout << "Time: " << duration << "s" << std::endl;
 	// save sorted data into a new file called sorted.bin
-    //f.saveFile((*head), "sorted.bin");
-    //(*head).print();
-	
-	//delete currVal;
-	//std::cout<< "Deleted currVal" << std::endl;
-	//delete newCurrVal;
-	//std::cout<< "Deleted newCurrVal" << std::endl;
-	delete head;
-	//std::cout<< "Deleted head" << std::endl;
     
-    return 0;
+    std::cout << "Writing to disk..." << std::endl;
+    f.saveFile((*head), "sorted.bin");
+    
+    // Print everything. Do away for more fasts.
+    // (*head).print();
 	
+	delete head;
+    std::cout << "Done" << std::endl;    
+    return 0;	
 }

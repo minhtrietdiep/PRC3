@@ -53,17 +53,14 @@ T* MergeSort(T* head) {
 
 
 template <class T>
-T* Merge(T* firstNode, T* secondNode)
-{
+T* Merge(T* firstNode, T* secondNode) {
     if (firstNode == NULL) return secondNode;
     else if (secondNode == NULL) return firstNode;
-    else if (firstNode->getText() <= secondNode->getText()) //if I reverse the sign to >=, the behavior reverses
-    {
+    else if (firstNode->getText() <= secondNode->getText()) {
         firstNode->setNext(Merge(firstNode->getNext(), secondNode));
         return firstNode;
     }
-    else 
-    {
+    else {
         secondNode->setNext(Merge(firstNode, secondNode->getNext()));
         return secondNode;
     }
