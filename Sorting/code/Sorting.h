@@ -1,3 +1,6 @@
+/*
+ * Bubble sort
+ */
 template <class T>
 T* BubbleSort(T& hd) {
 	bool done = false;
@@ -29,7 +32,10 @@ T* BubbleSort(T& hd) {
 	}
 	return head;
 }
+
 /*
+ * Merge sort
+ */
 template <class T>
 T* MergeSort(T* head) {
 	if (head == NULL || head->getNext() == NULL) {
@@ -45,44 +51,24 @@ T* MergeSort(T* head) {
 	return Merge(MergeSort(head),MergeSort(sHalf));
 }
 
-template <class T>
-T* Merge(T* a, T* b) {
-	//T* dummyHead = new T();
-	T dummyHead;
-	T* curr = &dummyHead;
-	dummyHead.setNext(NULL);
-	while (a != NULL && b != NULL) {
-		if (b->getText() > a->getText()) {
-			curr->setNext(a);
-			a = a->getNext();
-		} else {
-			curr->setNext(b);
-			b = b->getNext();
-		}
-		curr = curr->getNext();
-	}
-	curr->setNext( ( a == NULL ) ? b : a );
-	return dummyHead.getNext();
-}*/
 
-/*template <>
-Value* Merge(Value* a, Value* b) {
-	Value* dummyHead = new Value("");
-	Value* curr = dummyHead;
-	while (a != NULL && b != NULL) {
-		if (b->getText() > a->getText()) {
-			curr->setNext(a);
-			a = a->getNext();
-		} else {
-			curr->setNext(b);
-			b = b->getNext();
-		}
-		curr = curr->getNext();
-	}
-	curr->setNext( ( a == NULL ) ? b : a );
-	return dummyHead->getNext();
-}*/
-/*
+template <class T>
+T* Merge(T* firstNode, T* secondNode)
+{
+    if (firstNode == NULL) return secondNode;
+    else if (secondNode == NULL) return firstNode;
+    else if (firstNode->getText() <= secondNode->getText()) //if I reverse the sign to >=, the behavior reverses
+    {
+        firstNode->setNext(Merge(firstNode->getNext(), secondNode));
+        return firstNode;
+    }
+    else 
+    {
+        secondNode->setNext(Merge(firstNode, secondNode->getNext()));
+        return secondNode;
+    }
+}
+
 template <class T>
 T* GetMiddle(T* head) {
 	if (head == NULL) {
@@ -99,4 +85,3 @@ T* GetMiddle(T* head) {
 	}
 	return slow;
 }
-*/

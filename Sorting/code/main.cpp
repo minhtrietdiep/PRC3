@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 
 #include "FileStructure.h"
 #include "Key.h"
@@ -6,12 +7,20 @@
 
 int main()
 {
+	FileStructure f;
+    Key* head = new Key();
+    Value* newCurrVal;
+    
+    f.loadFile("data/gibberish.bin", (*head));
+    // head.print();
+    
+    /*
 	// Eigen lijst
-	/*Key* cHead = new Key();
-	cHead->setText("aa");
-	cHead->addValue("aaa");
-	cHead->addValue("aac");
-	cHead->addValue("aab");
+	Key* head = new Key();
+	head->setText("aa");
+	head->addValue("aaa");
+	head->addValue("aac");
+	head->addValue("aab");
 	
 	Key* c0 = new Key();
 	c0->setText("ab");
@@ -25,37 +34,19 @@ int main()
 	c1->addValue("acb");
 	c1->addValue("aca");
 		
-	cHead->setNext(c1);
+	head->setNext(c1);
 	c1->setNext(c0);
 	c0->setNext(NULL);
+	*/
 	
-	cHead = BubbleSort(*cHead);
-	Key* curr = cHead;	
-	while (curr != NULL) {
-		Value* currVal = curr->getValuePtr();
-		Value* newCurrVal = BubbleSort(*(currVal));
-		curr->setValuePtr(newCurrVal);
-		curr = curr->getNext();
-	}
 	
-	cHead->print();
-	delete cHead;
-	cHead = NULL;
-	return 0;*/
 	
-	FileStructure f;
-    Key* head = new Key();
     
-    f.loadFile("data/gibberish.bin", (*head));
-
-    // next line is only to show what kind of data we're working with
-    // remove this line to increase performance!
-    // head.print();
-    
-    // sort all data
-    // todo: your code here!
-    
-	// Het onderstaande werkt
+	/*
+	 *  Bubble sort
+	 */
+	/*
+	clock_t begin = clock();
 	head = BubbleSort(*head);
 	Key* curr = head;
 	while (curr != NULL) {
@@ -65,33 +56,49 @@ int main()
 		curr = curr->getNext();
 	}
 	
-    // save sorted data into a new file called sorted.bin
-    f.saveFile((*head), "sorted.bin");
-    //(*head).print();
+	clock_t end = clock();
+	double duration = double(end - begin) / CLOCKS_PER_SEC;
+	std::cout << "Time: " << duration << std::endl;
+
+	
+	f.saveFile((*head), "sorted.bin");
+    (*head).print();
 	
 	delete head;
 	head = NULL;
     return 0;
+	*/
 	
-	// Merge sort
 	/*
+	 *  Merge sort
+	 */
+	clock_t begin = clock();
+	
 	head = MergeSort(head);
 	
 	Key* curr = head;
-	while ( curr->getNext() != NULL) {
-		Value* currVal = curr->getValuePtr();
-		Value* newCurrVal = MergeSort(currVal);
+	//Value* currVal = new Value();
+	//Value* newCurrVal = new Value();
+	while ( curr != NULL) {
+		newCurrVal = MergeSort(curr->getValuePtr());
 		curr->setValuePtr(newCurrVal);
 		curr = curr->getNext();
 	}
 	
+	clock_t end = clock();
+	double duration = double(end - begin) / CLOCKS_PER_SEC;
+	std::cout << "Time: " << duration << "s" << std::endl;
 	// save sorted data into a new file called sorted.bin
-    f.saveFile((*head), "sorted.bin");
+    //f.saveFile((*head), "sorted.bin");
     //(*head).print();
 	
+	//delete currVal;
+	//std::cout<< "Deleted currVal" << std::endl;
+	//delete newCurrVal;
+	//std::cout<< "Deleted newCurrVal" << std::endl;
 	delete head;
-	head = NULL;
+	//std::cout<< "Deleted head" << std::endl;
+    
     return 0;
 	
-	*/
 }
